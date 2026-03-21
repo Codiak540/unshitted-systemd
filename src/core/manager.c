@@ -3171,12 +3171,26 @@ static int manager_dispatch_signal_fd(sd_event_source *source, int fd, uint32_t 
 static int manager_dispatch_time_change_fd(sd_event_source *source, int fd, uint32_t revents, void *userdata) {
         Manager *m = ASSERT_PTR(userdata);
         Unit *u;
+        uint64_t buf;
 
+        /* Read from the fd to distinguish a real clock change (ECANCELED) from
+         * a normal expiry — on 32-bit systems TIME_T_MAX is reachable and the
+         * timerfd will fire without a clock jump. In that case just re-arm and
+         * return without notifying units. */
+        if (read(fd, &buf, sizeof(buf)) >= 0) {
+                // Normal expiry, not a clock discontinuity. Re-arm and ignore.
+                (void) manager_setup_time_change(m);
+                return 0;
+        }
+
+        if (errno != ECANCELED)
+                return 0; // Unexpected error
+
+        // Real time change
         log_struct(LOG_DEBUG,
                    LOG_MESSAGE_ID(SD_MESSAGE_TIME_CHANGE_STR),
                    LOG_MESSAGE("Time has been changed"));
 
-        /* Restart the watch */
         (void) manager_setup_time_change(m);
 
         HASHMAP_FOREACH(u, m->units)
