@@ -241,7 +241,6 @@ static const MountEntry protect_system_full_table[] = {
         { "/usr",                MOUNT_READ_ONLY,     false },
         { "/boot",               MOUNT_READ_ONLY,     true  },
         { "/efi",                MOUNT_READ_ONLY,     true  },
-        { "/etc",                MOUNT_READ_ONLY,     false },
 };
 
 /* ProtectSystem=strict table. In this strict mode, we mount everything read-only, except for /proc, /dev,
