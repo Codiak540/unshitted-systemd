@@ -1,41 +1,39 @@
-![Systemd](http://brand.systemd.io/assets/page-logo.png)
+# Unshitted Systemd
+## A fork of Systemd solving every issue it's ever had.
+### Fuck the mantainers
+---
+## "Why should I use Unshitted Systemd?"
+Do you like the ease of Systemd, but don't love how slow and buggy it is? 
+Do you hate how Systemd uses AI code and Age Verification? Well, this doesn't do either!
 
-System and Service Manager
+Here's what Unshitted Systemd fixes
+- https://github.com/systemd/systemd/issues/437  - Using timeX.google.com by default for NTP (Which gives irregular time and is google bullshit)
+- https://github.com/systemd/systemd/issues/1143 - PID1 stuck printing "Time has been changed" after changing time past 2038 on 32bit systems
+- Systemd locks down /etc and makes it read-only - This doesn't.
+- Systemd used to wait 20 seconds before fully logging out to let processes exit... this is obviously stupid af, as it wastes time on good computers, and isn't long enough for bad computers. It now actually waits for all processes to exit, Then fully logs out.
 
-[![OBS Packages Status](https://build.opensuse.org/projects/system:systemd/packages/systemd/badge.svg?type=default)](https://build.opensuse.org/project/show/system:systemd)<br/>
-[![Semaphore CI 2.0 Build Status](https://the-real-systemd.semaphoreci.com/badges/systemd/branches/main.svg?style=shields)](https://the-real-systemd.semaphoreci.com/projects/systemd)<br/>
-[![Coverity Scan Status](https://scan.coverity.com/projects/350/badge.svg)](https://scan.coverity.com/projects/systemd)<br/>
-[![OSS-Fuzz Status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/systemd.svg)](https://oss-fuzz-build-logs.storage.googleapis.com/index.html#systemd)<br/>
-[![CIFuzz](https://github.com/systemd/systemd/actions/workflows/cifuzz.yml/badge.svg)](https://github.com/systemd/systemd/actions/workflows/cifuzz.yml)</br>
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1369/badge)](https://bestpractices.coreinfrastructure.org/projects/1369)<br/>
-[![Fossies codespell report](https://fossies.org/linux/test/systemd-main.tar.gz/codespell.svg)](https://fossies.org/linux/test/systemd-main.tar.gz/codespell.html)</br>
-[![Translation status](https://translate.fedoraproject.org/widget/systemd/svg-badge.svg)](https://translate.fedoraproject.org/engage/systemd/)</br>
-[![Coverage Status](https://coveralls.io/repos/github/systemd/systemd/badge.svg?branch=main)](https://coveralls.io/github/systemd/systemd?branch=main)</br>
-[![Packaging status](https://repology.org/badge/tiny-repos/systemd.svg)](https://repology.org/project/systemd/versions)</br>
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/systemd/systemd/badge)](https://securityscorecards.dev/viewer/?platform=github.com&org=systemd&repo=systemd)
+Speedups? My system saw a 4.5 second boot time speedup! With stock systemd, I'd boot in 23.5 seconds, now, I boot in 19!
 
-## Details
+And I'm fixing more issues and speeding things up every day!
 
-Most documentation is available on [systemd's web site](https://systemd.io/).
+## How to install:
 
-Assorted, older, general information about systemd can be found in the [systemd Wiki](https://www.freedesktop.org/wiki/Software/systemd).
+Bleeding Edge Version:
+```bash
+git clone https://aur.archlinux.org/unshitted-systemd-git.git
+cd unshitted-systemd-git
 
-Information about build requirements is provided in the [README file](README).
+makepkg -s
+sudo pacman -U --nodeps --overwrite '*' \
+  unshitted-systemd-260-1-x86_64.pkg.tar.zst \
+  unshitted-systemd-libs-260-1-x86_64.pkg.tar.zst \
+  unshitted-systemd-resolvconf-260-1-x86_64.pkg.tar.zst \
+  unshitted-systemd-sysvcompat-260-1-x86_64.pkg.tar.zst \
+  unshitted-systemd-tests-260-1-x86_64.pkg.tar.zst \
+  unshitted-systemd-ukify-260-1-x86_64.pkg.tar.zst
+```
 
-Consult our [NEWS file](NEWS) for information about what's new in the most recent systemd versions.
-
-Please see the [Code Map](docs/ARCHITECTURE.md) for information about this repository's layout and content.
-
-Please see the [Hacking guide](docs/HACKING.md) for information on how to hack on systemd and test your modifications.
-
-Please see our [Contribution Guidelines](docs/CONTRIBUTING.md) for more information about filing GitHub Issues and posting GitHub Pull Requests.
-
-When preparing patches for systemd, please follow our [Coding Style Guidelines](docs/CODING_STYLE.md).
-
-If you are looking for support, please contact our [mailing list](https://lists.freedesktop.org/mailman/listinfo/systemd-devel), join our [IRC channel #systemd on libera.chat](https://web.libera.chat/#systemd) or [Matrix channel](https://matrix.to/#/#systemd-project:matrix.org)
-
-Stable branches with backported patches are available in the [stable repo](https://github.com/systemd/systemd-stable).
-
-We have a security bug bounty program sponsored by the [Sovereign Tech Fund](https://www.sovereigntechfund.de/) hosted on [YesWeHack](https://yeswehack.com/programs/systemd-bug-bounty-program)
-
-Repositories with distribution packages built from git main are [available on OBS](https://software.opensuse.org//download.html?project=system%3Asystemd&package=systemd)
+Stable Version:
+```bash
+Stay tuned!
+```
