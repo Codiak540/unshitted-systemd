@@ -47,7 +47,6 @@ _homectl() {
                         --identity
                         --json
                         --export-format
-                     -c --real-name
                         --realm
                         --email-address
                         --location

@@ -29,7 +29,7 @@ int nss_pack_user_record(
                 char *buffer,
                 size_t buflen) {
 
-        const char *rn, *hd, *shell;
+        const char *hd, *shell;
         size_t required;
 
         assert(hr);
@@ -39,9 +39,6 @@ int nss_pack_user_record(
         required = strlen(hr->user_name) + 1;
 
         required += 2; /* strlen(PASSWORD_SEE_SHADOW) + 1 */
-
-        assert_se(rn = user_record_real_name(hr));
-        required += strlen(rn) + 1;
 
         assert_se(hd = user_record_home_directory(hr));
         required += strlen(hd) + 1;
@@ -62,7 +59,6 @@ int nss_pack_user_record(
 
         pwd->pw_passwd = stpcpy(pwd->pw_name, hr->user_name) + 1;
         pwd->pw_gecos = stpcpy(pwd->pw_passwd, PASSWORD_SEE_SHADOW) + 1;
-        pwd->pw_dir = stpcpy(pwd->pw_gecos, rn) + 1;
         pwd->pw_shell = stpcpy(pwd->pw_dir, hd) + 1;
         strcpy(pwd->pw_shell, shell);
 

@@ -251,14 +251,6 @@ of the blob directory in the record's signature. Managers that support blob
 directories and utilize signed user records (like `systemd-homed`) should use
 this field to verify the contents of the blob directory whenever appropriate.
 
-`realName` → The real name of the user, a string. This should contain the
-user's real ("human") name, and corresponds loosely to the GECOS field of classic UNIX user records.
-When converting a `struct passwd` to a JSON user record this field is initialized from GECOS (i.e. the `pw_gecos` field), and
-vice versa when converting back.
-That said, unlike GECOS this field is supposed to contain only the real name and no other information.
-This field must not contain control characters (such as `\n`) or colons (`:`), since those are used
-as record separators in classic `/etc/passwd` files and similar formats.
-
 `emailAddress` → The email address of the user, formatted as string.
 [`pam_systemd`](https://www.freedesktop.org/software/systemd/man/pam_systemd.html)
 initializes the `$EMAIL` environment variable from this value for all login
@@ -1074,7 +1066,6 @@ to JSON user records the following mappings should be applied:
 | `struct passwd` | `pw_passwd` | `privileged` | `password`                   | (See notes below)          |
 | `struct passwd` | `pw_uid`    | `regular`    | `uid`                        |                            |
 | `struct passwd` | `pw_gid`    | `regular`    | `gid`                        |                            |
-| `struct passwd` | `pw_gecos`  | `regular`    | `realName`                   |                            |
 | `struct passwd` | `pw_dir`    | `regular`    | `homeDirectory`              |                            |
 | `struct passwd` | `pw_shell`  | `regular`    | `shell`                      |                            |
 | `struct spwd`   | `sp_namp`   | `regular`    | `userName`                   |                            |

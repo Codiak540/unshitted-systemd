@@ -29,7 +29,6 @@ static int build_user_json(const char *user_name, uid_t uid, sd_json_variant **r
                                        SD_JSON_BUILD_PAIR("userName", SD_JSON_BUILD_STRING(user_name)),
                                        SD_JSON_BUILD_PAIR("uid", SD_JSON_BUILD_UNSIGNED(uid)),
                                        SD_JSON_BUILD_PAIR("gid", SD_JSON_BUILD_UNSIGNED(uid)),
-                                       SD_JSON_BUILD_PAIR("realName", JSON_BUILD_CONST_STRING("Dynamic User")),
                                        SD_JSON_BUILD_PAIR("homeDirectory", JSON_BUILD_CONST_STRING("/")),
                                        SD_JSON_BUILD_PAIR("shell", JSON_BUILD_CONST_STRING(NOLOGIN)),
                                        SD_JSON_BUILD_PAIR("locked", SD_JSON_BUILD_BOOLEAN(true)),

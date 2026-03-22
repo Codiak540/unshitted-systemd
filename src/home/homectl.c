@@ -193,7 +193,7 @@ static int list_homes(int argc, char *argv[], void *userdata) {
         if (r < 0)
                 return log_error_errno(r, "Failed to list homes: %s", bus_error_message(&error, r));
 
-        table = table_new("name", "uid", "gid", "state", "realname", "home", "shell");
+        table = table_new("name", "uid", "gid", "state", "home", "shell");
         if (!table)
                 return log_oom();
 
@@ -202,11 +202,11 @@ static int list_homes(int argc, char *argv[], void *userdata) {
                 return bus_log_parse_error(r);
 
         for (;;) {
-                const char *name, *state, *realname, *home, *shell, *color;
+                const char *name, *state, *home, *shell, *color;
                 TableCell *cell;
                 uint32_t uid, gid;
 
-                r = sd_bus_message_read(reply, "(susussso)", &name, &uid, &state, &gid, &realname, &home, &shell, NULL);
+                r = sd_bus_message_read(reply, "(susussso)", &name, &uid, &state, &gid, &home, &shell, NULL);
                 if (r < 0)
                         return bus_log_parse_error(r);
                 if (r == 0)
@@ -228,7 +228,6 @@ static int list_homes(int argc, char *argv[], void *userdata) {
                         (void) table_set_color(table, cell, color);
 
                 r = table_add_many(table,
-                                   TABLE_STRING, strna(empty_to_null(realname)),
                                    TABLE_STRING, home,
                                    TABLE_STRING, strna(empty_to_null(shell)));
                 if (r < 0)
@@ -3122,7 +3121,6 @@ static int help(int argc, char *argv[], void *userdata) {
                "     --mute-console=yes        In first-boot mode, tell kernel/PID 1 to not\n"
                "                               write to the console while running\n"
                "\n%4$sGeneral User Record Properties:%5$s\n"
-               "  -c --real-name=REALNAME      Real name for user\n"
                "     --realm=REALM             Realm to create user in\n"
                "     --alias=ALIAS             Define alias usernames for this account\n"
                "     --email-address=EMAIL     Email address for user\n"
@@ -3373,8 +3371,6 @@ static int parse_argv(int argc, char *argv[]) {
                 { "host",                         required_argument, NULL, 'H'                             },
                 { "machine",                      required_argument, NULL, 'M'                             },
                 { "identity",                     required_argument, NULL, 'I'                             },
-                { "real-name",                    required_argument, NULL, 'c'                             },
-                { "comment",                      required_argument, NULL, 'c'                             }, /* Compat alias to keep thing in sync with useradd(8) */
                 { "realm",                        required_argument, NULL, ARG_REALM                       },
                 { "alias",                        required_argument, NULL, ARG_ALIAS                       },
                 { "email-address",                required_argument, NULL, ARG_EMAIL_ADDRESS               },
@@ -3494,7 +3490,7 @@ static int parse_argv(int argc, char *argv[]) {
         for (;;) {
                 int c;
 
-                c = getopt_long(argc, argv, "hH:M:I:c:d:u:G:k:s:e:b:jPENAT", options, NULL);
+                c = getopt_long(argc, argv, "hH:M:I:d:u:G:k:s:e:b:jPENAT", options, NULL);
                 if (c < 0)
                         break;
 
@@ -3535,24 +3531,6 @@ static int parse_argv(int argc, char *argv[]) {
 
                 case 'I':
                         arg_identity = optarg;
-                        break;
-
-                case 'c':
-                        if (isempty(optarg)) {
-                                r = drop_from_identity("realName");
-                                if (r < 0)
-                                        return r;
-
-                                break;
-                        }
-
-                        if (!valid_gecos(optarg))
-                                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Real name '%s' not a valid GECOS field.", optarg);
-
-                        r = sd_json_variant_set_field_string(match_identity ?: &arg_identity_extra, "realName", optarg);
-                        if (r < 0)
-                                return log_error_errno(r, "Failed to set realName field: %m");
-
                         break;
 
                 case ARG_ALIAS: {

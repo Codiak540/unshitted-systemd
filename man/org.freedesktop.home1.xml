@@ -42,7 +42,6 @@ node /org/freedesktop/home1 {
                     out u uid,
                     out s home_state,
                     out u gid,
-                    out s real_name,
                     out s home_directory,
                     out s shell,
                     out o bus_path);
@@ -50,7 +49,6 @@ node /org/freedesktop/home1 {
                    out s user_name,
                    out s home_state,
                    out u gid,
-                   out s real_name,
                    out s home_directory,
                    out s shell,
                    out o bus_path);

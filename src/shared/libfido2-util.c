@@ -728,7 +728,6 @@ int fido2_generate_hmac_hash(
                 const char *rp_name,
                 const void *user_id, size_t user_id_len,
                 const char *user_name,
-                const char *user_display_name,
                 const char *user_icon,
                 const char *askpw_icon,
                 const char *askpw_credential,
@@ -841,7 +840,7 @@ int fido2_generate_hmac_hash(
                         c,
                         user_id, user_id_len,
                         user_name,
-                        user_display_name,
+                        NULL,
                         user_icon);
         if (r != FIDO_OK)
                 return log_error_errno(SYNTHETIC_ERRNO(EIO),

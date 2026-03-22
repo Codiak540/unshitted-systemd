@@ -112,11 +112,10 @@ static int show_user(UserRecord *ur, Table *table) {
                 if (!uid_is_valid(ur->uid))
                         break;
 
-                printf("%s:x:" UID_FMT ":" GID_FMT ":%s:%s:%s\n",
+                printf("%s:x:" UID_FMT ":" GID_FMT ":%s:%s\n",
                        ur->user_name,
                        ur->uid,
                        user_record_gid(ur),
-                       strempty(user_record_real_name(ur)),
                        user_record_home_directory(ur),
                        user_record_shell(ur));
 
@@ -149,7 +148,6 @@ static int show_user(UserRecord *ur, Table *table) {
                                 TABLE_STRING, user_disposition_to_string(d),
                                 TABLE_UID, ur->uid,
                                 TABLE_GID, user_record_gid(ur),
-                                TABLE_STRING, empty_to_null(ur->real_name),
                                 TABLE_PATH, user_record_home_directory(ur),
                                 TABLE_PATH, sh,
                                 TABLE_SET_COLOR, shell_to_color(sh),
@@ -414,7 +412,7 @@ static int display_user(int argc, char *argv[], void *userdata) {
                 arg_output = arg_from_file || (argc > 1 && !arg_fuzzy) ? OUTPUT_FRIENDLY : OUTPUT_TABLE;
 
         if (arg_output == OUTPUT_TABLE) {
-                table = table_new(" ", "name", "disposition", "uid", "gid", "realname", "home", "shell", "order");
+                table = table_new(" ", "name", "disposition", "uid", "gid", "home", "shell", "order");
                 if (!table)
                         return log_oom();
 

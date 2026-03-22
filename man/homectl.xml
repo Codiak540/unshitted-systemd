@@ -311,16 +311,6 @@
     <variablelist>
 
       <varlistentry>
-        <term><option>--real-name=<replaceable>NAME</replaceable></option></term>
-        <term><option>-c</option> <replaceable>NAME</replaceable></term>
-
-        <listitem><para>The real name for the user. This corresponds with the GECOS field on classic UNIX NSS
-        records.</para>
-
-        <xi:include href="version-info.xml" xpointer="v245"/></listitem>
-      </varlistentry>
-
-      <varlistentry>
         <term><option>--realm=<replaceable>REALM</replaceable></option></term>
 
         <listitem><para>The realm for the user. The realm associates a user with a specific organization or
@@ -1593,14 +1583,14 @@ $ ssh lennart@targetsystem</programlisting>
       <title>Create a user <literal>waldo</literal> in the administrator group <literal>wheel</literal>, and
       assign 500 MiB disk space to them.</title>
 
-      <programlisting>homectl create waldo --real-name="Waldo McWaldo" -G wheel --disk-size=500M</programlisting>
+      <programlisting>homectl create waldo -G wheel --disk-size=500M</programlisting>
     </example>
 
     <example>
       <title>Create a user <literal>wally</literal> on a USB stick, and assign a maximum of 500 concurrent
       tasks to them.</title>
 
-      <programlisting>homectl create wally --real-name="Wally McWally" --image-path=/dev/disk/by-id/usb-SanDisk_Ultra_Fit_476fff954b2b5c44-0:0 --tasks-max=500</programlisting>
+      <programlisting>homectl create wally --image-path=/dev/disk/by-id/usb-SanDisk_Ultra_Fit_476fff954b2b5c44-0:0 --tasks-max=500</programlisting>
     </example>
 
     <example>

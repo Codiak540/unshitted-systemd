@@ -125,7 +125,7 @@ int identity_add_fido2_parameters(
                 int cred_alg) {
 
 #if HAVE_LIBFIDO2
-        sd_json_variant *un, *realm, *rn;
+        sd_json_variant *un, *realm;
         _cleanup_(iovec_done) struct iovec salt = {};
         _cleanup_(erase_and_freep) void *secret = NULL;
         _cleanup_(erase_and_freep) char *used_pin = NULL;
@@ -155,11 +155,6 @@ int identity_add_fido2_parameters(
         } else
                 fido_un = sd_json_variant_string(un);
 
-        rn = sd_json_variant_by_key(*v, "realName");
-        if (rn && !sd_json_variant_is_string(rn))
-                return log_error_errno(SYNTHETIC_ERRNO(EINVAL),
-                                       "realName field of user record is not a string");
-
         r = fido2_generate_salt(&salt);
         if (r < 0)
                return r;
@@ -170,7 +165,6 @@ int identity_add_fido2_parameters(
                         /* rp_name= */ "Home Directory",
                         /* user_id= */ fido_un, strlen(fido_un), /* We pass the user ID and name as the same */
                         /* user_name= */ fido_un,
-                        /* user_display_name= */ rn ? sd_json_variant_string(rn) : NULL,
                         /* user_icon= */ NULL,
                         /* askpw_icon= */ "user-home",
                         /* askpw_credential= */ "home.token-pin",

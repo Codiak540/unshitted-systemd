@@ -30,8 +30,6 @@ user records to be the user's primary group.
 A string in DNS domain name syntax.
 
 `description` → A descriptive string for the group.
-This is similar to the `realName` field of user records, and accepts arbitrary strings, as long as
-they follow the same GECOS syntax requirements as `realName`.
 
 `disposition` → The disposition of the group, conceptually identical to the
 same field of user records. A string.

@@ -76,7 +76,7 @@ typedef struct LookupParameters {
 } LookupParameters;
 
 static int build_user_json(UserNamespaceInfo *userns_info, uid_t offset, sd_json_variant **ret) {
-        _cleanup_free_ char *name = NULL, *realname = NULL;
+        _cleanup_free_ char *name = NULL;
         UserDisposition disposition;
         int r;
 
@@ -88,10 +88,10 @@ static int build_user_json(UserNamespaceInfo *userns_info, uid_t offset, sd_json
 
         if (userns_info->size > 1) {
                 disposition = USER_CONTAINER;
-                r = asprintf(&realname, "User " UID_FMT " of Allocated Namespace %s", offset, userns_info->name);
+                r = asprintf(&name, "User " UID_FMT " of Allocated Namespace %s", offset, userns_info->name);
         } else {
                 disposition = USER_DYNAMIC;
-                r = asprintf(&realname, "Allocated Namespace %s", userns_info->name);
+                r = asprintf(&name, "Allocated Namespace %s", userns_info->name);
         }
         if (r < 0)
                 return -ENOMEM;
@@ -101,7 +101,6 @@ static int build_user_json(UserNamespaceInfo *userns_info, uid_t offset, sd_json
                         SD_JSON_BUILD_PAIR("userName", SD_JSON_BUILD_STRING(name)),
                         SD_JSON_BUILD_PAIR("uid", SD_JSON_BUILD_UNSIGNED(userns_info->start_uid + offset)),
                         SD_JSON_BUILD_PAIR("gid", SD_JSON_BUILD_UNSIGNED(GID_NOBODY)),
-                        SD_JSON_BUILD_PAIR("realName", SD_JSON_BUILD_STRING(realname)),
                         SD_JSON_BUILD_PAIR("homeDirectory", JSON_BUILD_CONST_STRING("/")),
                         SD_JSON_BUILD_PAIR("shell", SD_JSON_BUILD_STRING(NOLOGIN)),
                         SD_JSON_BUILD_PAIR("locked", SD_JSON_BUILD_BOOLEAN(true)),

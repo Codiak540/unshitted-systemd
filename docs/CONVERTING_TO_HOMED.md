@@ -88,7 +88,7 @@ Here's the step-by-step guide:
    Let's now create a new account with `systemd-homed`, using the same username and UID as before:
 
    ```sh
-   homectl create foobar --uid=$UID --real-name=$GECOS
+   homectl create foobar --uid=$UID
    ```
 
    In this command line, replace `$UID` by the UID you previously used,

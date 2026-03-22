@@ -69,7 +69,7 @@ def add_letter(template, letter, pages):
     title.text = letter
     para = tree.SubElement(refsect1, 'para')
     for info in sorted(pages, key=lambda info: str.lower(info[0])):
-        refname, section, purpose, _realname = info
+        refname, section, purpose = info
 
         b = tree.SubElement(para, 'citerefentry')
         c = tree.SubElement(b, 'refentrytitle')
@@ -86,9 +86,6 @@ def add_summary(template, indexpages):
     pages = set()
     for group in indexpages:
         count += len(group)
-        for info in group:
-            _refname, section, _purpose, realname = info
-            pages.add((realname, section))
 
     refsect1 = tree.fromstring(SUMMARY)
     template.append(refsect1)

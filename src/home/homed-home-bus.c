@@ -41,7 +41,6 @@ static int property_get_unix_record(
                         h->user_name,
                         (uint32_t) h->uid,
                         h->record ? (uint32_t) user_record_gid(h->record) : GID_INVALID,
-                        h->record ? user_record_real_name(h->record) : NULL,
                         h->record ? user_record_home_directory(h->record) : NULL,
                         h->record ? user_record_shell(h->record) : NULL);
 }

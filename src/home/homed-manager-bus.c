@@ -152,7 +152,6 @@ static int method_get_home_by_name(
                         (uint32_t) h->uid,
                         home_state_to_string(home_get_state(h)),
                         h->record ? (uint32_t) user_record_gid(h->record) : GID_INVALID,
-                        h->record ? user_record_real_name(h->record) : NULL,
                         h->record ? user_record_home_directory(h->record) : NULL,
                         h->record ? user_record_shell(h->record) : NULL,
                         path);
@@ -192,7 +191,6 @@ static int method_get_home_by_uid(
                         h->user_name,
                         home_state_to_string(home_get_state(h)),
                         h->record ? (uint32_t) user_record_gid(h->record) : GID_INVALID,
-                        h->record ? user_record_real_name(h->record) : NULL,
                         h->record ? user_record_home_directory(h->record) : NULL,
                         h->record ? user_record_shell(h->record) : NULL,
                         path);
@@ -231,7 +229,6 @@ static int method_list_homes(
                                 (uint32_t) h->uid,
                                 home_state_to_string(home_get_state(h)),
                                 h->record ? (uint32_t) user_record_gid(h->record) : GID_INVALID,
-                                h->record ? user_record_real_name(h->record) : NULL,
                                 h->record ? user_record_home_directory(h->record) : NULL,
                                 h->record ? user_record_shell(h->record) : NULL,
                                 path);
@@ -1086,7 +1083,6 @@ static const sd_bus_vtable manager_vtable[] = {
                                 SD_BUS_RESULT("u", uid,
                                               "s", home_state,
                                               "u", gid,
-                                              "s", real_name,
                                               "s", home_directory,
                                               "s", shell,
                                               "o", bus_path),
@@ -1097,7 +1093,6 @@ static const sd_bus_vtable manager_vtable[] = {
                                 SD_BUS_RESULT("s", user_name,
                                               "s", home_state,
                                               "u", gid,
-                                              "s", real_name,
                                               "s", home_directory,
                                               "s", shell,
                                               "o", bus_path),

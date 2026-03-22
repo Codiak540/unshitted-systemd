@@ -70,7 +70,7 @@ PASSWORD=xEhErW0ndafV4s homectl authenticate test-user
 PASSWORD=xEhErW0ndafV4s homectl activate test-user
 inspect test-user
 
-PASSWORD=xEhErW0ndafV4s homectl update test-user --real-name="Inline test"
+PASSWORD=xEhErW0ndafV4s homectl update test-user
 inspect test-user
 
 homectl deactivate test-user
@@ -88,7 +88,7 @@ inspect test-user
 homectl deactivate test-user
 inspect test-user
 
-homectl update test-user --real-name "Offline test" --offline
+homectl update test-user --offline
 inspect test-user
 
 PASSWORD=xEhErW0ndafV4s homectl activate test-user
@@ -100,7 +100,7 @@ grep "Offline test" /home/test-user/.identity
 homectl deactivate test-user
 inspect test-user
 
-PASSWORD=xEhErW0ndafV4s homectl update test-user --real-name="Inactive test"
+PASSWORD=xEhErW0ndafV4s homectl update test-user
 inspect test-user
 
 PASSWORD=xEhErW0ndafV4s homectl activate test-user
@@ -116,7 +116,7 @@ if ! systemd-detect-virt -cq ; then
     inspect test-user
 
     # Key should now be in the keyring
-    homectl update test-user --real-name "Keyring Test"
+    homectl update test-user
     inspect test-user
 
     # These commands shouldn't use the keyring
@@ -127,13 +127,13 @@ if ! systemd-detect-virt -cq ; then
     inspect test-user
 
     # Key should be gone from keyring
-    (! timeout 5s homectl update test-user --real-name "Keyring Test 2" )
+    (! timeout 5s homectl update test-user)
 
     PASSWORD=xEhErW0ndafV4s homectl unlock test-user
     inspect test-user
 
     # Key should have been re-instantiated into the keyring
-    homectl update test-user --real-name "Keyring Test 3"
+    homectl update test-user
     inspect test-user
 
     homectl deactivate test-user
@@ -391,7 +391,6 @@ cat >"/run/userdb/dropinuser.user" <<\EOF
 {
     "userName" : "dropinuser",
     "uid"      : 2000000,
-    "realName" : "🐱",
     "memberOf" : [
         "dropingroup"
     ]

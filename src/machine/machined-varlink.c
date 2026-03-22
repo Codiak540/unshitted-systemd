@@ -38,7 +38,7 @@ typedef struct LookupParameters {
         const char *service;
 } LookupParameters;
 
-static int build_user_json(const char *user_name, uid_t uid, const char *real_name, sd_json_variant **ret) {
+static int build_user_json(const char *user_name, uid_t uid, sd_json_variant **ret) {
         assert(user_name);
         assert(uid_is_valid(uid));
         assert(ret);
@@ -49,7 +49,6 @@ static int build_user_json(const char *user_name, uid_t uid, const char *real_na
                                                            SD_JSON_BUILD_PAIR("userName", SD_JSON_BUILD_STRING(user_name)),
                                                            SD_JSON_BUILD_PAIR("uid", SD_JSON_BUILD_UNSIGNED(uid)),
                                                            SD_JSON_BUILD_PAIR("gid", SD_JSON_BUILD_UNSIGNED(GID_NOBODY)),
-                                                           SD_JSON_BUILD_PAIR_CONDITION(!isempty(real_name), "realName", SD_JSON_BUILD_STRING(real_name)),
                                                            SD_JSON_BUILD_PAIR("homeDirectory", JSON_BUILD_CONST_STRING("/")),
                                                            SD_JSON_BUILD_PAIR("shell", JSON_BUILD_CONST_STRING(NOLOGIN)),
                                                            SD_JSON_BUILD_PAIR("locked", SD_JSON_BUILD_BOOLEAN(true)),
@@ -69,8 +68,8 @@ static bool user_match_lookup_parameters(LookupParameters *p, const char *name, 
         return true;
 }
 
-static int user_lookup_uid(Manager *m, uid_t uid, char **ret_name, char **ret_real_name) {
-        _cleanup_free_ char *n = NULL, *rn = NULL;
+static int user_lookup_uid(Manager *m, uid_t uid, char **ret_name) {
+        _cleanup_free_ char *n = NULL;
         uid_t converted_uid;
         Machine *machine;
         int r;
@@ -78,7 +77,6 @@ static int user_lookup_uid(Manager *m, uid_t uid, char **ret_name, char **ret_re
         assert(m);
         assert(uid_is_valid(uid));
         assert(ret_name);
-        assert(ret_real_name);
 
         if (uid < 0x10000) /* Host UID range */
                 return -ESRCH;
@@ -96,20 +94,12 @@ static int user_lookup_uid(Manager *m, uid_t uid, char **ret_name, char **ret_re
         if (!valid_user_group_name(n, 0))
                 return -ESRCH;
 
-        if (asprintf(&rn, "UID " UID_FMT " of Container %s", converted_uid, machine->name) < 0)
-                return -ENOMEM;
-
-        /* Don't synthesize invalid real names either, but since this field doesn't matter much, simply invalidate things */
-        if (!valid_gecos(rn))
-                rn = mfree(rn);
-
         *ret_name = TAKE_PTR(n);
-        *ret_real_name = TAKE_PTR(rn);
         return 0;
 }
 
-static int user_lookup_name(Manager *m, const char *name, uid_t *ret_uid, char **ret_real_name) {
-        _cleanup_free_ char *mn = NULL, *rn = NULL;
+static int user_lookup_name(Manager *m, const char *name, uid_t *ret_uid) {
+        _cleanup_free_ char *mn = NULL;
         uid_t uid, converted_uid;
         Machine *machine;
         const char *e, *d;
@@ -117,7 +107,6 @@ static int user_lookup_name(Manager *m, const char *name, uid_t *ret_uid, char *
 
         assert(m);
         assert(ret_uid);
-        assert(ret_real_name);
 
         if (!valid_user_group_name(name, 0))
                 return -ESRCH;
@@ -148,13 +137,7 @@ static int user_lookup_name(Manager *m, const char *name, uid_t *ret_uid, char *
         if (r < 0)
                 return r;
 
-        if (asprintf(&rn, "UID " UID_FMT " of Container %s", uid, machine->name) < 0)
-                return -ENOMEM;
-        if (!valid_gecos(rn))
-                rn = mfree(rn);
-
         *ret_uid = converted_uid;
-        *ret_real_name = TAKE_PTR(rn);
         return 0;
 }
 
@@ -171,7 +154,7 @@ static int vl_method_get_user_record(sd_varlink *link, sd_json_variant *paramete
         LookupParameters p = {
                 .uid = UID_INVALID,
         };
-        _cleanup_free_ char *found_name = NULL, *found_real_name = NULL;
+        _cleanup_free_ char *found_name = NULL;
         uid_t found_uid = UID_INVALID, uid;
         Manager *m = ASSERT_PTR(userdata);
         const char *un;
@@ -187,9 +170,9 @@ static int vl_method_get_user_record(sd_varlink *link, sd_json_variant *paramete
                 return sd_varlink_error(link, "io.systemd.UserDatabase.BadService", NULL);
 
         if (uid_is_valid(p.uid))
-                r = user_lookup_uid(m, p.uid, &found_name, &found_real_name);
+                r = user_lookup_uid(m, p.uid, &found_name);
         else if (p.user_name)
-                r = user_lookup_name(m, p.user_name, &found_uid, &found_real_name);
+                r = user_lookup_name(m, p.user_name, &found_uid);
         else
                 return sd_varlink_error(link, "io.systemd.UserDatabase.EnumerationNotSupported", NULL);
         if (r == -ESRCH)
@@ -203,7 +186,7 @@ static int vl_method_get_user_record(sd_varlink *link, sd_json_variant *paramete
         if (!user_match_lookup_parameters(&p, un, uid))
                 return sd_varlink_error(link, "io.systemd.UserDatabase.ConflictingRecordFound", NULL);
 
-        r = build_user_json(un, uid, found_real_name, &v);
+        r = build_user_json(un, uid, &v);
         if (r < 0)
                 return r;
 

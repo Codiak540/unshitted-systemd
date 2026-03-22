@@ -39,19 +39,16 @@ TEST(self_changes) {
 
         /* default allowlisted */
         USER(&curr,
-             SD_JSON_BUILD_PAIR_STRING("userName", "test"),
-             SD_JSON_BUILD_PAIR_STRING("realName", "Old Name"));
+             SD_JSON_BUILD_PAIR_STRING("userName", "test"));
         USER(&new,
-             SD_JSON_BUILD_PAIR_STRING("userName", "test"),
-             SD_JSON_BUILD_PAIR_STRING("realName", "New Name"));
+             SD_JSON_BUILD_PAIR_STRING("userName", "test"));
         ASSERT_TRUE(user_record_self_changes_allowed(curr, new));
 
         /* introduced new default allowlisted */
         USER(&curr,
              SD_JSON_BUILD_PAIR_STRING("userName", "test"));
         USER(&new,
-             SD_JSON_BUILD_PAIR_STRING("userName", "test"),
-             SD_JSON_BUILD_PAIR_STRING("realName", "New Name"));
+             SD_JSON_BUILD_PAIR_STRING("userName", "test"));
         ASSERT_TRUE(user_record_self_changes_allowed(curr, new));
 
         /* introduced new not allowlisted */
