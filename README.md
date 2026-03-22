@@ -4,13 +4,18 @@
 ---
 ## "Why should I use Unshitted Systemd?"
 Do you like the ease of Systemd, but don't love how slow and buggy it is? 
-Do you hate how Systemd uses AI code and Age Verification? Well, this doesn't do either!
+Do you hate how Systemd uses AI code and stores your private data? Well, this fixes those "Features"!
 
 Here's what Unshitted Systemd fixes
 - https://github.com/systemd/systemd/issues/437  - Using timeX.google.com by default for NTP (Which gives irregular time and is google bullshit)
 - https://github.com/systemd/systemd/issues/1143 - PID1 stuck printing "Time has been changed" after changing time past 2038 on 32bit systems
 - Systemd locks down /etc and makes it read-only - This doesn't.
 - Systemd used to wait 20 seconds before fully logging out to let processes exit... this is obviously stupid af, as it wastes time on good computers, and isn't long enough for bad computers. It now actually waits for all processes to exit, Then fully logs out.
+
+Here's what Unshitted Systemd removes
+- All AI Code
+- Fields for the Users Birthday
+- Fields for the Users Real Name
 
 Speedups? My system saw a 4.5 second boot time speedup! With stock systemd, I'd boot in 23.5 seconds, now, I boot in 19!
 
