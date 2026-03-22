@@ -1170,7 +1170,7 @@ static int help(void) {
         if (r < 0)
                 return log_oom();
 
-        printf("Unshitted-Systemd Version 1.0\n\n%s [OPTIONS...]\n\n"
+        printf("Unshitted-Systemd Version B1.0\n\n%s [OPTIONS...]\n\n"
                "%sStarts and monitors system and user services.%s\n\n"
                "This program takes no positional arguments.\n\n"
                "%sOptions%s:\n"
