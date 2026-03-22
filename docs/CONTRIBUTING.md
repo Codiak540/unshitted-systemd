@@ -5,24 +5,27 @@ layout: default
 SPDX-License-Identifier: LGPL-2.1-or-later
 ---
 
+//TODO: Create a new coding style page for unshitted-systemd, and edit accordingly
+//TODO: Review striked out sections and delete/edit/incorporate them accordingly
+
 # Contributing
 
-We welcome contributions from everyone. However, please follow the following guidelines when posting a GitHub Pull Request or filing a GitHub Issue on the systemd project:
+We welcome contributions from everyone. However, please follow the following guidelines when posting a GitHub Pull Request or filing a GitHub Issue on the unshitted-systemd project:
 
 ## Filing Issues
 
-* We use [GitHub Issues](https://github.com/systemd/systemd/issues) **exclusively** for tracking **bugs** and **feature** **requests** (RFEs) of systemd.
-  If you are looking for help, please try the forums of your distribution first, or [systemd-devel mailing list](https://lists.freedesktop.org/mailman/listinfo/systemd-devel) for general questions about systemd.
+* We use [GitHub Issues](https://github.com/Codiak540/unshitted-systemd/issues) **exclusively** for tracking **bugs** and **feature** **requests** (RFEs) of unshitted-systemd.
+  If you are looking for help, please try the forums of your distribution first,<s> or [systemd-devel mailing list](https://lists.freedesktop.org/mailman/listinfo/systemd-devel) for general questions about systemd. </s>
 * We only track bugs in the **two** **most** **recently** **released** (non-rc) **versions** of systemd in the GitHub Issue tracker.
-  If you are using an older version of systemd, please contact your distribution's bug tracker instead (see below).
-  See [GitHub Release Page](https://github.com/systemd/systemd/releases) for the list of most recent releases.
-* When filing a feature request issue (RFE), please always check first if the newest upstream version of systemd already implements the feature,
+  If you are using an older version of unshitted-systemd, please contact your distribution's bug tracker instead (see below).
+  See [GitHub Release Page](https://github.com/Codiak540/unshitted-systemd/releases) for the list of most recent releases.
+* When filing a feature request issue (RFE), please always check first if the newest upstream version of unshitted-systemd already implements the feature,
   and whether there's already an issue filed for your feature by someone else.
-* When filing an issue, specify the **systemd** **version** you are experiencing the issue with. Also, indicate which **distribution** you are using.
+* When filing an issue, specify the **unshitted-systemd** **version** you are experiencing the issue with. Also, indicate which **distribution** you are using.
 * Please include an explanation how to reproduce the issue you are pointing out.
 
 Following these guidelines makes it easier for us to process your issue, and ensures we won't close your issue right-away for being misfiled.
-
+<s>
 ### Older downstream versions
 
 For older versions that are still supported by your distribution please use respective downstream tracker:
@@ -34,6 +37,7 @@ For older versions that are still supported by your distribution please use resp
 ## Security vulnerability reports
 
 See [reporting of security vulnerabilities](https://systemd.io/SECURITY).
+</s>
 
 ## Posting Pull Requests
 
@@ -44,7 +48,7 @@ See [reporting of security vulnerabilities](https://systemd.io/SECURITY).
 * If you need to update the code in an existing PR, force-push into the same branch, overriding old commits with new versions.
 * After you have pushed a new version, add a comment explaining the latest changes.
 * If you are copying existing code from another source (eg: a compat header), please make sure the license is compatible with `LGPL-2.1-or-later`.
-  If the license is not `LGPL-2.1-or-later`, please add a note to [`LICENSES/README.md`](https://github.com/systemd/systemd/blob/main/LICENSES/README.md).
+  If the license is not `LGPL-2.1-or-later`, please add a note to [`LICENSES/README.md`](https://github.com/Codiak540/unshitted-systemd/blob/main/LICENSES/README.md).
 * If the pull request stalls without review, post a ping in a comment after some time has passed.
   We are always short on reviewer time, and pull requests which haven't seen any recent activity can be easily forgotten.
 * Github will automatically add the `please-review` label when a pull request is opened or updated.
@@ -52,35 +56,7 @@ See [reporting of security vulnerabilities](https://systemd.io/SECURITY).
 
 ## Using AI Code Generators
 
-If you use an AI code generator such as ChatGPT, Claude, Copilot, Llama or a similar tool, this must be
-disclosed in the commit messages and pull request description.
-
-The quality bar for contributions to this project is high, and unlikely to be met by an unattended AI tool,
-without significant manual corrections. Always thoroughly review and correct any such outputs, for example
-ensuring it accurately follows [Coding Style](https://systemd.io/CODING_STYLE) at the very minimum. Please do
-not fire-and-forget pull requests without any human intervention and review, as that will likely result in
-low-quality results that will not be accepted, and if done repeatedly, may result in the account being
-blocked. As with any other submissions, authors are responsible for doing due diligence and ensuring their
-submissions are compatible with the project's license as documented in LICENSES/README.md.
-
-As a guideline, if someone notices that a contribution (code, issues, comments) was made with the help of AI,
-there was likely a lack of human review of the AI generated output.
-
-## Reviewing Pull Requests
-
-* See [filtered list of pull requests](https://github.com/systemd/systemd/pulls?q=is%3Aopen+is%3Apr+-label%3A%22reviewed%2Fneeds-rework+%F0%9F%94%A8%22+-label%3Aneeds-rebase+-label%3Agood-to-merge%2Fwith-minor-suggestions+-label%3A%22good-to-merge%2Fwaiting-for-ci+%F0%9F%91%8D%22+-label%3Apostponed+-label%3A%22needs-reporter-feedback+%E2%9D%93%22+-label%3A%22dont-merge+%F0%9F%92%A3%22+-label%3A%22ci-fails%2Fneeds-rework+%F0%9F%94%A5%22+sort%3Aupdated-desc) for requests that are ready for review.
-* After performing a review, set
-
-  * `reviewed/needs-rework` if the pull request needs significant changes
-  * `ci-fails/needs-rework` if the automatic tests fail and the failure is relevant to the pull request
-  * `ci-failure-appears-unrelated` if the test failures seem irrelevant
-  * `needs-rebase` if the pull request needs a rebase because of conflicts
-  * `good-to-merge/waiting-for-ci` if the pull request should be merged without further review
-  * `good-to-merge/with-minor-suggestions` if the pull request should be merged after an update without going through another round of reviews
-
-Unfortunately only members of the `systemd` organization on github can change labels.
-If your pull request is mislabeled, make a comment in the pull request and somebody will fix it.
-Reviews from non-members are still welcome.
+AI code generators such as ChatGPT, Claude, Copilot, Llama or a similar tool are **NOT** allowed, AI code will not be accepted.
 
 ## Final Words
 
@@ -92,8 +68,7 @@ Thank you very much for your contributions!
 
 We strive to keep backward compatibility where possible and reasonable.
 The following are general guidelines, not hard rules, and case-by-case exceptions might be applied at the discretion of the maintainers.
-The current set of build-time and runtime dependencies are documented in the [README](https://github.com/systemd/systemd/blob/main/README).
-
+The current set of build-time and runtime dependencies are documented in the [TECHNICAL-README](https://github.com/Codiak540/unshitted-systemd/blob/main/TECHNICAL-README.md?plain=1).
 ## New features
 
 It is fine for new features/functionality/tools/daemons to require bleeding edge external dependencies, provided there
