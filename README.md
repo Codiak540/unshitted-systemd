@@ -1,8 +1,8 @@
 # Unshitted Systemd
 ## A fork of Systemd solving every issue it's ever had.
 ### Fuck the mantainers
-
-"Why should I use Unshitted Systemd?"
+---
+## "Why should I use Unshitted Systemd?"
 Do you like the ease of Systemd, but don't love how slow and buggy it is? 
 Do you hate how Systemd uses AI code and Age Verification? Well, this doesn't do either!
 
@@ -15,7 +15,7 @@ Speedups? My system saw a 4.5 second boot time speedup! With stock systemd, I'd 
 
 And I'm fixing more issues and speeding things up every day!
 
-How to install:
+## How to install:
 
 Bleeding Edge Version:
 ```bash
