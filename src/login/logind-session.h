@@ -108,6 +108,8 @@ typedef struct Session {
 
         char *state_file;
 
+        sd_event_source *cgroup_empty_event_source;
+
         User *user;
 
         dual_timestamp timestamp;

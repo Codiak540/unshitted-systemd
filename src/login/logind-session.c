@@ -7,6 +7,7 @@
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <sys/inotify.h>
 
 #include "sd-bus.h"
 #include "sd-event.h"
@@ -47,8 +48,6 @@
 #include "tmpfile-util.h"
 #include "user-record.h"
 #include "user-util.h"
-
-#define RELEASE_USEC (20*USEC_PER_SEC)
 
 static void session_restore_vt(Session *s);
 
@@ -154,6 +153,7 @@ Session* session_free(Session *s) {
                 return NULL;
 
         sd_event_source_unref(s->stop_on_idle_event_source);
+        sd_event_source_unref(s->cgroup_empty_event_source);
 
         if (s->in_gc_queue) {
                 assert(s->manager);
@@ -214,6 +214,7 @@ Session* session_free(Session *s) {
         /* Note that we don't remove the state file here, since it's supposed to survive daemon restarts */
         free(s->state_file);
         free(s->id);
+
 
         return mfree(s);
 }
@@ -903,6 +904,7 @@ int session_stop(Session *s, bool force) {
                 return 0;
 
         s->timer_event_source = sd_event_source_unref(s->timer_event_source);
+        s->cgroup_empty_event_source = sd_event_source_unref(s->cgroup_empty_event_source);
 
         if (s->seat)
                 seat_evict_position(s->seat, s);
@@ -937,6 +939,7 @@ int session_finalize(Session *s) {
                            LOG_MESSAGE("Removed session %s.", s->id));
 
         s->timer_event_source = sd_event_source_unref(s->timer_event_source);
+        s->cgroup_empty_event_source = sd_event_source_unref(s->cgroup_empty_event_source);
 
         if (s->seat)
                 seat_evict_position(s->seat, s);
@@ -978,6 +981,34 @@ static int release_timeout_callback(sd_event_source *es, uint64_t usec, void *us
         return 0;
 }
 
+static int session_dispatch_cgroup_empty(sd_event_source *es, int fd, uint32_t revents, void *userdata) {
+        Session *session = userdata;
+        char buf[4096];
+
+        (void) read(fd, buf, sizeof(buf));
+
+        _cleanup_free_ char *events_path = NULL;
+        if (asprintf(&events_path, "/sys/fs/cgroup/%s/cgroup.events", session->scope) < 0)
+                return -ENOMEM;
+
+        _cleanup_fclose_ FILE *f = fopen(events_path, "re");
+        if (!f)
+                return 0;
+
+        char line[64];
+        while (fgets(line, sizeof(line), f))
+                if (startswith(line, "populated 0")) {
+                        // Cancel the fallback timer since we caught it early
+                        session->timer_event_source = sd_event_source_disable_unref(session->timer_event_source);
+                        session->cgroup_empty_event_source = sd_event_source_disable_unref(session->cgroup_empty_event_source);
+
+                        session_stop(session, /* force= */ false);
+                        return 0;
+                }
+
+        return 0;
+}
+
 int session_release(Session *s) {
         assert(s);
 
@@ -987,11 +1018,38 @@ int session_release(Session *s) {
         if (s->timer_event_source)
                 return 0;
 
+        if (s->scope) {
+                _cleanup_free_ char *events_path = NULL;
+
+                if (asprintf(&events_path, "/sys/fs/cgroup/%s/cgroup.events", s->scope) >= 0) {
+                        int ifd = inotify_init1(IN_NONBLOCK | IN_CLOEXEC);
+                        if (ifd >= 0) {
+                                if (inotify_add_watch(ifd, events_path, IN_MODIFY) >= 0) {
+                                        int r = sd_event_add_io(
+                                                        s->manager->event,
+                                                        &s->cgroup_empty_event_source,
+                                                        ifd,
+                                                        EPOLLIN,
+                                                        session_dispatch_cgroup_empty,
+                                                        s);
+                                        if (r < 0)
+                                                log_warning_errno(r, "Failed to watch cgroup events for session %s, ignoring: %m", s->id);
+                                        else
+                                                (void) sd_event_source_set_io_fd_own(s->cgroup_empty_event_source, true);
+                                }
+                                /* close unless ownership was transferred above */
+                                if (!s->cgroup_empty_event_source)
+                                        close(ifd);
+                        }
+                }
+        }
+
         return sd_event_add_time_relative(
                         s->manager->event,
                         &s->timer_event_source,
                         CLOCK_MONOTONIC,
-                        RELEASE_USEC, 0,
+                        s->manager->release_usec,
+                        0,
                         release_timeout_callback, s);
 }
 
@@ -1258,7 +1316,10 @@ SessionState session_get_state(Session *s) {
         assert(s);
 
         /* always check closing first */
-        if (s->stopping || s->timer_event_source)
+        //if (s->stopping || s->timer_event_source)
+        //        return SESSION_CLOSING;
+
+        if (s->stopping || s->timer_event_source || s->cgroup_empty_event_source)
                 return SESSION_CLOSING;
 
         if (s->scope_job || !pidref_is_set(&s->leader))

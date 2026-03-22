@@ -9,6 +9,7 @@
 #include "logind-forward.h"
 
 typedef struct Manager {
+        usec_t release_usec;
         sd_event *event;
         sd_bus *bus;
 
