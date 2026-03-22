@@ -11,7 +11,7 @@ on:
       - v[0-9]+-stable
     paths:
       - "**"
-      - "!README*"
+      - "!TECHNICAL-README.md*"
       - "!LICENSE*"
       - "!LICENSES/**"
       - "!TODO"
@@ -29,7 +29,7 @@ on:
       - v[0-9]+-stable
     paths:
       - "**"
-      - "!README*"
+      - "!TECHNICAL-README.md*"
       - "!LICENSE*"
       - "!LICENSES/**"
       - "!TODO"

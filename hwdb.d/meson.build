@@ -4,7 +4,7 @@
 # they are very long but quite repetitive and the parser is not very fast.
 # So we don't "test" them.
 hwdb_files_notest = files(
-        'README',
+        'TECHNICAL-README.md',
         '20-dmi-id.hwdb',
         '20-pci-vendor-model.hwdb',
         '20-pci-classes.hwdb',

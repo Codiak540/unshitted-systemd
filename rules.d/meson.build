@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
 install_data(
-        'README',
+        'TECHNICAL-README.md',
         install_dir : udevrulesdir)
 
 rules = [

@@ -72,7 +72,7 @@ dissect:
     - any-glob-to-any-file: '**/*dissect*'
 documentation:
   - changed-files:
-    - any-glob-to-any-file: ['NEWS', 'README*', 'docs/*', 'man/*']
+    - any-glob-to-any-file: ['NEWS', 'TECHNICAL-README.md*', 'docs/*', 'man/*']
 env-generator:
   - changed-files:
     - any-glob-to-any-file: '**/*environment*generator*'

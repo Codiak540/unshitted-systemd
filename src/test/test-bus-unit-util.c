@@ -1030,7 +1030,7 @@ TEST(unit_properties) {
                         "FailureActionExitStatus=",
                         "Documentation=man:myservice(8)",
                         "Documentation=https://example.com/docs",
-                        "Documentation=file:/usr/share/doc/myservice/README",
+                        "Documentation=file:/usr/share/doc/myservice/TECHNICAL-README.md",
                         "RequiresMountsFor=/var/lib/myservice",
                         "RequiresMountsFor=\t\t\t   \t/home\t\t\t\t\t/var/log    \t",
                         "WantsMountsFor=/tmp",

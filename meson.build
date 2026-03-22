@@ -2802,7 +2802,7 @@ endif
 install_data('LICENSE.GPL2',
              'LICENSE.LGPL2.1',
              'NEWS',
-             'README',
+             'TECHNICAL-README.md',
              'docs/ENVIRONMENT.md',
              'docs/TRANSIENT-SETTINGS.md',
              'docs/UIDS-GIDS.md',
