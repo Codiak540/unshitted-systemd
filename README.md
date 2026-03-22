@@ -1,5 +1,5 @@
 # Unshitted Systemd
-## A fork of Systemd solving every issue it's ever had.
+## A fork of Systemd trying to solve every issue it's ever had.
 ### Fuck the mantainers
 ---
 ## "Why should I use Unshitted Systemd?"
