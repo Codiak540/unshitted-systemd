@@ -33,7 +33,7 @@ Here's what Unshitted Systemd removes
 Speedups? My system saw a 4.5 second boot time speedup! With stock systemd, I used to boot in 23.5 seconds, now, I boot in 19!
 
 And I'm planning on fixing more issues and speeding things up every day!
-<hr />>
+<hr />
 <h2>How to install:</h2>
 
 <h3>Bleeding Edge Version:</h3>
