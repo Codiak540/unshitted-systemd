@@ -4,7 +4,7 @@ category: Contributing
 layout: default
 SPDX-License-Identifier: LGPL-2.1-or-later
 ---
-
+//TODO: fix enforcement section of code of conduct
 # The systemd Community Conduct Guidelines
 
 This document provides community guidelines for a safe, respectful, productive, and collaborative place for any person who is willing to contribute to systemd.
@@ -14,7 +14,7 @@ It applies to all “collaborative spaces”, which is defined as community comm
 - Participants must ensure that their language and actions are free of personal attacks and disparaging personal remarks.
 - When interpreting the words and actions of others, participants should always assume good intentions.
 - Behaviour which can be reasonably considered harassment will not be tolerated.
-
+<s>
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at systemd-conduct@googlegroups.com.
@@ -23,3 +23,5 @@ In the unfortunate event that you wish to make a complaint against one of the me
 
 All complaints will be reviewed and investigated and will result in a response that is deemed necessary and appropriate to the circumstances.
 The project team is obligated to maintain confidentiality with regard to the reporter of an incident.
+</s>
+
