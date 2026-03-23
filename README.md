@@ -37,7 +37,7 @@ And I'm planning on fixing more issues and speeding things up every day!
 <h2>How to install:</h2>
 
 <h3>Bleeding Edge Version:</h3>
-```
+``` <br />
 git clone https://aur.archlinux.org/unshitted-systemd-git.git
 cd unshitted-systemd-git
 
@@ -46,7 +46,7 @@ makepkg -si
 
 If makepkg -si doesn't work, do
 
-```
+``` <br />
 makepkg -s
 
 sudo pacman -U --nodeps --overwrite '*' \
