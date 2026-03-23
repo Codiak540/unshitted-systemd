@@ -1,7 +1,6 @@
 # Unshitted Systemd
 ***This is a fork of systemd, do not bother systemd about issues or questions related to this fork***
 ## A fork of Systemd trying to solve every issue it's ever had.
-### Fuck the mantainers
 ---
 ## "Why should I use Unshitted Systemd?"
 Do you like the ease of Systemd, but don't love how slow and buggy it is? 
