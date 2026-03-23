@@ -1,4 +1,5 @@
 # Unshitted Systemd
+***This is a fork of systemd, do not bother systemd about issues or questions related to this fork***
 ## A fork of Systemd trying to solve every issue it's ever had.
 ### Fuck the mantainers
 ---
