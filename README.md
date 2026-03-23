@@ -1,7 +1,6 @@
 <h1>Unshitted Systemd</h1>
 <hr />
-<h2> A fork of Systemd trying to solve every issue it's ever had.
-</h2>
+<h2>A fork of Systemd trying to solve every issue it's ever had.</h2>
 <hr />
 
 <strong><i>
@@ -10,9 +9,11 @@ This is a fork of systemd, do not bother the official systemd about issues or qu
 
 <hr />
 
-<h2> "Why should I use Unshitted Systemd?"</h2>
-Do you like the ease of Systemd, but don't love how slow and buggy it is? 
-Do you hate how Systemd uses AI code and stores your private data? Well, this fixes those "Features"!
+<h2>"Why should I use Unshitted Systemd?"</h2>
+Do you like the ease of Systemd, but don't love how slow and buggy it is? <br /> 
+Do you hate how Systemd uses AI code and stores your private data? <br />
+
+Well, this fixes those "Features"!
 
 Here's what Unshitted Systemd fixes
 <ul>
@@ -30,7 +31,7 @@ Here's what Unshitted Systemd removes
 <li> Fields for the Users Real Name </li>
 </ul>
 
-Speedups? My system saw a 4.5 second boot time speedup! With stock systemd, I used to boot in 23.5 seconds, now, I boot in 19!
+Speedups? My system saw a 4.5 second boot time speedup! With stock systemd, I used to boot in 23.5 seconds, now, I boot in 19! <br />
 
 And I'm planning on fixing more issues and speeding things up every day!
 <hr />
