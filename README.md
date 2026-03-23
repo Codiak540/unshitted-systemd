@@ -33,24 +33,25 @@ Here's what Unshitted Systemd removes
 Speedups? My system saw a 4.5 second boot time speedup! With stock systemd, I used to boot in 23.5 seconds, now, I boot in 19!
 
 And I'm planning on fixing more issues and speeding things up every day!
-<hr />>
+<hr />
 <h2>How to install:</h2>
 
 <h3>Bleeding Edge Version:</h3>
-``` <br />
+
+```shell
 git clone https://aur.archlinux.org/unshitted-systemd-git.git
 cd unshitted-systemd-git
 
 makepkg -si
 ```
 
-If makepkg -si doesn't work, do
+If makepkg -si doesn't work, try
 
-``` <br />
+```shell
 makepkg -s
 
 sudo pacman -U --nodeps --overwrite '*' \
-  unshitted-systemd-260-1-x86_64.pkg.tar.zst \
+unshitted-systemd-260-1-x86_64.pkg.tar.zst \
   unshitted-systemd-libs-260-1-x86_64.pkg.tar.zst \
   unshitted-systemd-resolvconf-260-1-x86_64.pkg.tar.zst \
   unshitted-systemd-sysvcompat-260-1-x86_64.pkg.tar.zst \
@@ -58,7 +59,7 @@ sudo pacman -U --nodeps --overwrite '*' \
   unshitted-systemd-ukify-260-1-x86_64.pkg.tar.zst
 ```
 
-Or you can use an AUR helper, such as paru or yay `paru unshitted-systemd-git` or `yay unshitted-systemd-git`
+Or you can use an AUR helper, such as paru or yay
 
 <h3>Stable Version</h3>
 
