@@ -11,6 +11,8 @@ Here's what Unshitted Systemd fixes
 - https://github.com/systemd/systemd/issues/1143 - PID1 stuck printing "Time has been changed" after changing time past 2038 on 32bit systems
 - Systemd locks down /etc and makes it read-only - This doesn't.
 - Systemd used to wait 90 seconds before fully logging out to let processes exit... this is obviously stupid af, as it wastes time on good computers, and isn't long enough for bad computers. It now actually waits for all processes to exit, Then fully logs out.
+- Optimized binfmt
+
 
 Here's what Unshitted Systemd removes
 - All AI Code
@@ -28,7 +30,13 @@ Bleeding Edge Version:
 git clone https://aur.archlinux.org/unshitted-systemd-git.git
 cd unshitted-systemd-git
 
+makepkg -si
+```
+
+If makepkg -si doesn't work, do
+```bash
 makepkg -s
+
 sudo pacman -U --nodeps --overwrite '*' \
   unshitted-systemd-260-1-x86_64.pkg.tar.zst \
   unshitted-systemd-libs-260-1-x86_64.pkg.tar.zst \
@@ -37,6 +45,8 @@ sudo pacman -U --nodeps --overwrite '*' \
   unshitted-systemd-tests-260-1-x86_64.pkg.tar.zst \
   unshitted-systemd-ukify-260-1-x86_64.pkg.tar.zst
 ```
+
+Or you can use an AUR helper, such as paru or yay `paru unshitted-systemd-git` or `yay unshitted-systemd-git`
 
 Stable Version:
 ```bash
