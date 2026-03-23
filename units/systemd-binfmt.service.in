@@ -17,7 +17,8 @@ Conflicts=shutdown.target
 After=proc-sys-fs-binfmt_misc.automount
 After=proc-sys-fs-binfmt_misc.mount
 After=local-fs.target
-Before=sysinit.target shutdown.target
+After=sysinit.target shutdown.target
+
 ConditionPathIsMountPoint=/proc/sys/fs/binfmt_misc
 ConditionDirectoryNotEmpty=|/lib/binfmt.d
 ConditionDirectoryNotEmpty=|/usr/lib/binfmt.d
@@ -30,4 +31,4 @@ Type=oneshot
 RemainAfterExit=yes
 ExecStart={{LIBEXECDIR}}/systemd-binfmt
 ExecStop={{LIBEXECDIR}}/systemd-binfmt --unregister
-TimeoutSec=90s
+TimeoutSec=10s

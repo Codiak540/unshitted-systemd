@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-files = [['TECHNICAL-README.md',                true],
+files = [['README',                true],
          ['systemd-coredump.conf', conf.get('ENABLE_COREDUMP') == 1],
          ['systemd-oom.conf',      conf.get('ENABLE_OOMD') == 1],
          ['systemd-remote.conf',   conf.get('ENABLE_REMOTE') == 1 and conf.get('HAVE_MICROHTTPD') == 1]]

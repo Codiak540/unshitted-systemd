@@ -29,7 +29,9 @@ static int delete_rule(const char *rulename) {
         return write_string_file(fn, "-1", WRITE_STRING_FILE_DISABLE_BUFFER);
 }
 
-static int apply_rule(const char *filename, unsigned line, const char *rule) {
+// skip_delete: set true when caller already flushed all rules globally,
+// avoiding redundant per-rule procfs writes before each registration.
+static int apply_rule(const char *filename, unsigned line, const char *rule, bool skip_delete) {
         assert(filename);
         assert(line > 0);
         assert(rule);
@@ -47,12 +49,16 @@ static int apply_rule(const char *filename, unsigned line, const char *rule) {
                 return log_error_errno(SYNTHETIC_ERRNO(EINVAL),
                                        "%s:%u: Rule name '%s' is not valid, refusing.",
                                        filename, line, rulename);
-        r = delete_rule(rulename);
-        if (r < 0 && r != -ENOENT)
-                log_warning_errno(r, "%s:%u: Failed to delete rule '%s', ignoring: %m",
-                                  filename, line, rulename);
-        if (r >= 0)
-                log_debug("%s:%u: Rule '%s' deleted.", filename, line, rulename);
+
+        // skip individual delete if global flush already cleared everything
+        if (!skip_delete) {
+                r = delete_rule(rulename);
+                if (r < 0 && r != -ENOENT)
+                        log_warning_errno(r, "%s:%u: Failed to delete rule '%s', ignoring: %m",
+                                          filename, line, rulename);
+                if (r >= 0)
+                        log_debug("%s:%u: Rule '%s' deleted.", filename, line, rulename);
+        }
 
         r = write_string_file("/proc/sys/fs/binfmt_misc/register", rule, WRITE_STRING_FILE_DISABLE_BUFFER);
         if (r < 0)
@@ -63,7 +69,7 @@ static int apply_rule(const char *filename, unsigned line, const char *rule) {
         return 0;
 }
 
-static int apply_file(const char *filename, bool ignore_enoent) {
+static int apply_file(const char *filename, bool ignore_enoent, bool skip_delete) {
         _cleanup_fclose_ FILE *f = NULL;
         _cleanup_free_ char *pp = NULL;
         int r;
@@ -94,7 +100,7 @@ static int apply_file(const char *filename, bool ignore_enoent) {
                 if (strchr(COMMENTS, text[0]))
                         continue;
 
-                RET_GATHER(r, apply_rule(filename, line, text));
+                RET_GATHER(r, apply_rule(filename, line, text, skip_delete));
         }
 
         return r;
@@ -226,8 +232,9 @@ static int run(int argc, char *argv[]) {
                 if (r <= 0)
                         return r;
 
+                // specific files given -- no global flush ran, so delete individually
                 for (int i = optind; i < argc; i++)
-                        RET_GATHER(r, apply_file(argv[i], false));
+                        RET_GATHER(r, apply_file(argv[i], false, false));
 
         } else {
                 _cleanup_strv_free_ char **files = NULL;
@@ -235,6 +242,12 @@ static int run(int argc, char *argv[]) {
                 r = conf_files_list_strv(&files, ".conf", NULL, 0, (const char**) CONF_PATHS_STRV("binfmt.d"));
                 if (r < 0)
                         return log_error_errno(r, "Failed to enumerate binfmt.d files: %m");
+
+                // nothing to do, skip mount check and procfs entirely
+                if (strv_isempty(files)) {
+                        log_debug("No binfmt.d configuration files found, nothing to do.");
+                        return 0;
+                }
 
                 if (arg_cat_flags != CAT_CONFIG_OFF)
                         return cat_config(files);
@@ -250,8 +263,9 @@ static int run(int argc, char *argv[]) {
                 else
                         log_debug("Flushed all binfmt_misc rules.");
 
+                // global flush already ran -- skip per-rule deletes
                 STRV_FOREACH(f, files)
-                        RET_GATHER(r, apply_file(*f, true));
+                        RET_GATHER(r, apply_file(*f, true, true));
         }
 
         return r;

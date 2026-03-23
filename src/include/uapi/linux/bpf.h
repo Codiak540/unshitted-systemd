@@ -1957,7 +1957,7 @@ union bpf_attr {
  * 		The format of the trace is customizable, and the exact output
  * 		one will get depends on the options set in
  * 		*\/sys/kernel/tracing/trace_options* (see also the
- * 		*TECHNICAL-README.md* file under the same directory). However, it usually
+ * 		*README* file under the same directory). However, it usually
  * 		defaults to something like:
  *
  * 		::

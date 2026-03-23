@@ -4,7 +4,7 @@ if conf.get('ENABLE_TMPFILES') != 1
         subdir_done()
 endif
 
-files = [['TECHNICAL-README.md'],
+files = [['README'],
          ['home.conf'],
          ['journal-nocow.conf'],
          ['portables.conf',       'ENABLE_PORTABLED'],

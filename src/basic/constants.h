@@ -63,5 +63,5 @@
 /* Path where systemd-oomd listens for varlink connections from user managers to report changes in ManagedOOM settings. */
 #define VARLINK_ADDR_PATH_MANAGED_OOM_USER "/run/systemd/oom/io.systemd.ManagedOOM"
 
-/* Recommended baseline - see TECHNICAL-README.md for details */
+/* Recommended baseline - see README for details */
 #define KERNEL_BASELINE_VERSION "5.7"
