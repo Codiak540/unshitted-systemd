@@ -68,7 +68,7 @@ Thank you very much for your contributions!
 
 We strive to keep backward compatibility where possible and reasonable.
 The following are general guidelines, not hard rules, and case-by-case exceptions might be applied at the discretion of the maintainers.
-The current set of build-time and runtime dependencies are documented in the [TECHNICAL-README](https://github.com/Codiak540/unshitted-systemd/blob/main/TECHNICAL-README.md?plain=1).
+The current set of build-time and runtime dependencies are documented in the [README](https://github.com/Codiak540/unshitted-systemd/blob/main/README).
 ## New features
 
 It is fine for new features/functionality/tools/daemons to require bleeding edge external dependencies, provided there
