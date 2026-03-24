@@ -14,7 +14,7 @@ This is a fork of systemd, do not bother the official systemd about issues or qu
 Do you like the ease of Systemd, but don't love how slow and buggy it is? 
 Do you hate how Systemd uses AI code and stores your private data? Well, this fixes those "Features"!
 
-Here's what Unshitted Systemd fixes
+<h3>Here's what Unshitted Systemd fixes:</h3>
 <ul>
 <li> https://github.com/systemd/systemd/issues/437  - Using timeX.google.com by default for NTP (Which gives irregular time and is google bullshit)</li>
 <li> https://github.com/systemd/systemd/issues/1143 - PID1 stuck printing "Time has been changed" after changing time past 2038 on 32bit systems</li>
@@ -23,7 +23,7 @@ Here's what Unshitted Systemd fixes
 <li> Optimized binfmt</li>
 </ul>
 
-Here's what Unshitted Systemd removes
+<h3>Here's what Unshitted Systemd removes:</h3>
 <ul>
 <li>All AI Code </li>
 <li> Fields for the Users Birthday </li>
