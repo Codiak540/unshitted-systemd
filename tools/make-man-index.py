@@ -69,7 +69,7 @@ def add_letter(template, letter, pages):
     title.text = letter
     para = tree.SubElement(refsect1, 'para')
     for info in sorted(pages, key=lambda info: str.lower(info[0])):
-        refname, section, purpose = info
+        refname, section, purpose, _ = info
 
         b = tree.SubElement(para, 'citerefentry')
         c = tree.SubElement(b, 'refentrytitle')
