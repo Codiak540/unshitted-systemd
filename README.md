@@ -64,3 +64,13 @@ Or you can use an AUR helper, such as paru or yay
 <h3>Stable Version</h3>
 
 Stay tuned!
+
+## Star History
+
+<a href="https://www.star-history.com/?repos=Codiak540%2Funshitted-systemd&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=Codiak540/unshitted-systemd&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=Codiak540/unshitted-systemd&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=Codiak540/unshitted-systemd&type=date&legend=top-left" />
+ </picture>
+</a>
